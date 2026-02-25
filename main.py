@@ -149,7 +149,7 @@ async def main():
     # D-Pad UI Positioning
     dpad_size = 90
     spacing = 35
-    dpad_y = 360
+    dpad_y = 460
     dpad_x = 710
     btn_up = res["dpad"]["up"].get_rect(top=dpad_y, left=dpad_x + dpad_size + spacing)
     btn_down = res["dpad"]["down"].get_rect(top=dpad_y + dpad_size + spacing, left=dpad_x + dpad_size + spacing)
