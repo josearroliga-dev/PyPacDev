@@ -149,12 +149,18 @@ async def main():
     # D-Pad UI Positioning
     dpad_size = 90
     spacing = 35
-    dpad_y = 460
+    dpad_y = 440
     dpad_x = 710
+    
+    # Cruz / Cross Layout
+    # Up is at the top center
     btn_up = res["dpad"]["up"].get_rect(top=dpad_y, left=dpad_x + dpad_size + spacing)
-    btn_down = res["dpad"]["down"].get_rect(top=dpad_y + dpad_size + spacing, left=dpad_x + dpad_size + spacing)
-    btn_left = res["dpad"]["left"].get_rect(top=dpad_y + dpad_size + spacing, left=dpad_x)
-    btn_right = res["dpad"]["right"].get_rect(top=dpad_y + dpad_size + spacing, left=dpad_x + (dpad_size * 2) + (spacing * 2))
+    # Down is below Up
+    btn_down = res["dpad"]["down"].get_rect(top=dpad_y + dpad_size * 2 + spacing * 2, left=dpad_x + dpad_size + spacing)
+    # Left and Right are in the vertical middle
+    mid_y = dpad_y + dpad_size + spacing
+    btn_left = res["dpad"]["left"].get_rect(top=mid_y, left=dpad_x)
+    btn_right = res["dpad"]["right"].get_rect(top=mid_y, left=dpad_x + (dpad_size * 2) + (spacing * 2))
 
     if res["sonidos"]["inicio"]: res["sonidos"]["inicio"].play()
 
