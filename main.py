@@ -148,12 +148,13 @@ async def main():
 
     # D-Pad UI Positioning
     dpad_size = 90
-    dpad_y = 500
-    dpad_x = 750
-    btn_up = res["dpad"]["up"].get_rect(top=dpad_y, left=dpad_x + dpad_size + 10)
-    btn_down = res["dpad"]["down"].get_rect(top=dpad_y + dpad_size + 10, left=dpad_x + dpad_size + 10)
-    btn_left = res["dpad"]["left"].get_rect(top=dpad_y + dpad_size + 10, left=dpad_x)
-    btn_right = res["dpad"]["right"].get_rect(top=dpad_y + dpad_size + 10, left=dpad_x + (dpad_size * 2) + 20)
+    spacing = 35
+    dpad_y = 360
+    dpad_x = 710
+    btn_up = res["dpad"]["up"].get_rect(top=dpad_y, left=dpad_x + dpad_size + spacing)
+    btn_down = res["dpad"]["down"].get_rect(top=dpad_y + dpad_size + spacing, left=dpad_x + dpad_size + spacing)
+    btn_left = res["dpad"]["left"].get_rect(top=dpad_y + dpad_size + spacing, left=dpad_x)
+    btn_right = res["dpad"]["right"].get_rect(top=dpad_y + dpad_size + spacing, left=dpad_x + (dpad_size * 2) + (spacing * 2))
 
     if res["sonidos"]["inicio"]: res["sonidos"]["inicio"].play()
 
