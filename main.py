@@ -76,6 +76,25 @@ def cargar_recursos():
                 "lose": config.load_sound("loseSound.wav")
             }
         }
+        
+        # Generar "flechas" proceduralmente con Surfaces ya que no hay imagenes
+        btn_size = 90
+        up_btn = pygame.Surface((btn_size, btn_size)); up_btn.fill((200, 200, 200))
+        down_btn = pygame.Surface((btn_size, btn_size)); down_btn.fill((200, 200, 200))
+        left_btn = pygame.Surface((btn_size, btn_size)); left_btn.fill((200, 200, 200))
+        right_btn = pygame.Surface((btn_size, btn_size)); right_btn.fill((200, 200, 200))
+
+        font_arrows = pygame.font.SysFont("Arial", 60, True)
+        up_btn.blit(font_arrows.render("^", True, (0,0,0)), (25, 5))
+        down_btn.blit(font_arrows.render("v", True, (0,0,0)), (30, 0))
+        left_btn.blit(font_arrows.render("<", True, (0,0,0)), (25, 0))
+        right_btn.blit(font_arrows.render(">", True, (0,0,0)), (25, 0))
+
+        r["dpad"] = {
+            "up": up_btn, "down": down_btn, 
+            "left": left_btn, "right": right_btn
+        }
+        
         return r
     except: return None
 
@@ -127,6 +146,15 @@ async def main():
     zone2_rect = res["botones"]["zone2"].get_rect(top=500, left=350)
     zone3_rect = res["botones"]["zone3"].get_rect(top=500, left=500)
 
+    # D-Pad UI Positioning
+    dpad_size = 90
+    dpad_y = 500
+    dpad_x = 750
+    btn_up = res["dpad"]["up"].get_rect(top=dpad_y, left=dpad_x + dpad_size + 10)
+    btn_down = res["dpad"]["down"].get_rect(top=dpad_y + dpad_size + 10, left=dpad_x + dpad_size + 10)
+    btn_left = res["dpad"]["left"].get_rect(top=dpad_y + dpad_size + 10, left=dpad_x)
+    btn_right = res["dpad"]["right"].get_rect(top=dpad_y + dpad_size + 10, left=dpad_x + (dpad_size * 2) + 20)
+
     if res["sonidos"]["inicio"]: res["sonidos"]["inicio"].play()
 
     def reset_state(nuevo_nivel_idx=None):
@@ -165,7 +193,20 @@ async def main():
                 if zone1_rect.collidepoint(m): reset_state(0)
                 if zone2_rect.collidepoint(m): reset_state(1)
                 if zone3_rect.collidepoint(m): reset_state(2)
+
+                # D-Pad clicks
+                if jugando and not (ganado or perdido):
+                    if btn_up.collidepoint(m): vy = -5; vx = 0; pac_orientacion = res["pac_dir"]["up"]
+                    if btn_down.collidepoint(m): vy = 5; vx = 0; pac_orientacion = res["pac_dir"]["down"]
+                    if btn_left.collidepoint(m): vx = -5; vy = 0; pac_orientacion = res["pac_dir"]["left"]
+                    if btn_right.collidepoint(m): vx = 5; vy = 0; pac_orientacion = res["pac_dir"]["right"]
             
+            if event.type == pygame.MOUSEBUTTONUP:
+                # Stop movement when touch is released to emulate exact KEYUP behavior
+                m = pygame.mouse.get_pos()
+                if btn_up.collidepoint(m) or btn_down.collidepoint(m): vy = 0
+                if btn_left.collidepoint(m) or btn_right.collidepoint(m): vx = 0
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_n:
                     reset_state((current_level_idx + 1) % len(config.LEVELS))
@@ -221,6 +262,11 @@ async def main():
         vent.blit(res["botones"]["zone1"], zone1_rect)
         vent.blit(res["botones"]["zone2"], zone2_rect)
         vent.blit(res["botones"]["zone3"], zone3_rect)
+        
+        vent.blit(res["dpad"]["up"], btn_up)
+        vent.blit(res["dpad"]["down"], btn_down)
+        vent.blit(res["dpad"]["left"], btn_left)
+        vent.blit(res["dpad"]["right"], btn_right)
         
         for b in bloques: pygame.draw.rect(vent, (0, 0, 0), b)
         for p in bonus: pygame.draw.rect(vent, (50, 140, 240), p)

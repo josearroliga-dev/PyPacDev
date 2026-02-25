@@ -2,7 +2,7 @@ import pygame
 from pathlib import Path
 
 # --- SCREEN ---
-ANCHO, ALTO = 1080, 600
+ANCHO, ALTO = 1080, 700
 FPS = 60
 
 # --- COLORS ---
