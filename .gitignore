@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pygbag build artifacts
+build/
+build_log.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
